@@ -1,16 +1,7 @@
 # Name 
 Kaiti Mok Rong
-# student number & CWL
-16915143 , kaitimk
 
 Assignment 2
-
-I had a exentuated circumstances and was granted one extra late day for my assignemnts by Professor Alla
-and I would like to use it for this assignemnt. Thank you. 
-
-# Late day used
-Used 1 late day 
-
 
 # Files changed 
 AI_System.cpp/hpp 
