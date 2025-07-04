@@ -14,27 +14,6 @@ A cross-platform C++14 graphics application using OpenGL, GLFW, SDL2, and GLM.
 - Clean CMake-based build system
 - Auto-injected shader/project path via `configure_file`
 
----
-
-## 📁 Project Structure
-
-```
-
-chicken/
-├── CMakeLists.txt
-├── src/
-│   ├── main.cpp
-│   ├── ...
-├── ext/
-│   ├── stb\_image/
-│   ├── gl3w/
-│   ├── glm/
-│   ├── sdl/
-│   └── glfw/
-
-````
-
----
 
 ## 🔧 Build Instructions
 
