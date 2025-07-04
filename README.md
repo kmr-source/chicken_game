@@ -1,3 +1,6 @@
+
+---
+
 ```markdown
 # 🐔 Chicken
 
@@ -5,28 +8,68 @@ A cross-platform C++14 graphics application using OpenGL, GLFW, SDL2, and GLM.
 
 ## Features
 
-- OpenGL rendering
-- Audio support via SDL2_mixer
-- Cross-platform build support (Windows, macOS, Linux)
-- Clean CMake integration
-- Optional shader path generation
+- OpenGL-based rendering
+- SDL2 audio support (via SDL2_mixer)
+- Cross-platform build support: **Windows, Linux, and macOS**
+- Clean CMake-based build system
+- Auto-injected shader/project path via `configure_file`
+
+---
+
+## 📁 Project Structure
+
+```
+
+chicken/
+├── CMakeLists.txt
+├── src/
+│   ├── main.cpp
+│   ├── ...
+├── ext/
+│   ├── stb\_image/
+│   ├── gl3w/
+│   ├── glm/
+│   ├── sdl/
+│   └── glfw/
+
+````
 
 ---
 
 ## 🔧 Build Instructions
 
-### 🐧 Linux / 🍎 macOS
+### 🐧 Linux
 
-> Dependencies required: `cmake`, `pkg-config`, `GLFW`, `SDL2`, `SDL2_mixer`, `OpenGL`
-
-Install dependencies (example for Ubuntu/Debian):
+**Dependencies**: `cmake`, `pkg-config`, `GLFW`, `SDL2`, `SDL2_mixer`, `OpenGL`, `GLM`
 
 ```bash
 sudo apt update
-sudo apt install cmake libglfw3-dev libsdl2-dev libsdl2-mixer-dev libglm-dev
+sudo apt install cmake pkg-config libglfw3-dev libsdl2-dev libsdl2-mixer-dev libglm-dev
+mkdir build
+cd build
+cmake ..
+make
 ````
 
-Then build:
+---
+
+### 🍎 macOS
+
+Yes, **this project supports macOS** — but you'll need to install the required libraries manually using **Homebrew**.
+
+#### ✅ Prerequisites (Install Homebrew)
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+#### ✅ Install dependencies:
+
+```bash
+brew install cmake pkg-config glfw sdl2 sdl2_mixer glm
+```
+
+#### ✅ Build:
 
 ```bash
 mkdir build
@@ -35,50 +78,67 @@ cmake ..
 make
 ```
 
+#### ⚠️ Notes for macOS:
+
+* OpenGL is deprecated on macOS, but still available and functional.
+* If your Mac has an M1/M2 chip, the max supported OpenGL version is 4.1 natively.
+* The build system links required Apple frameworks like `Cocoa` and `CoreFoundation`.
+* If you encounter errors related to OpenGL or `gl3w`, make sure your context and loader setup is macOS-compatible.
+
+---
+
 ### 🪟 Windows
 
-1. Install [CMake](https://cmake.org/), [Visual Studio](https://visualstudio.microsoft.com/), and ensure CMake is in your `PATH`.
-2. Clone the project and open a terminal in the root directory.
-3. Build:
+Uses precompiled binaries in `ext/`. You must have:
+
+* Visual Studio (2022 recommended)
+* CMake in your `PATH`
 
 ```bash
 mkdir build
 cd build
-cmake .. -G "Visual Studio 17 2022" # or appropriate generator
+cmake .. -G "Visual Studio 17 2022"
 cmake --build . --config Release
 ```
-
-> Note: Precompiled libraries and DLLs for SDL2, SDL2\_mixer, and GLFW are expected in `ext/sdl/` and `ext/glfw/`.
 
 ---
 
 ## 🖼️ Running the Application
 
-After building, the executable will be in:
+After building:
 
-* `build/chicken` (Linux/macOS)
-* `build/Release/chicken.exe` (Windows)
+* On **Linux/macOS**:
+  Run the binary:
 
-On Windows, required DLLs will be copied automatically to the output directory.
+  ```bash
+  ./build/chicken
+  ```
+
+* On **Windows**:
+  The required `.dll` files are automatically copied to the build folder:
+
+  ```bash
+  .\build\Release\chicken.exe
+  ```
 
 ---
 
 ## ⚙️ Configuration
 
-### Shader Path Injection
+The file `ext/project_path.hpp` is generated at configure-time using CMake's `configure_file()`.
 
-`ext/project_path.hpp` is auto-generated during the CMake process. You can edit `ext/project_path.hpp.in` to customize.
+You can edit `ext/project_path.hpp.in` to change how paths are resolved inside your app (e.g., to locate shaders or resources).
 
 ---
 
 ## 🧪 Development Tips
 
-* You can enable verbose CMake output with:
+* Enable verbose output:
 
   ```bash
   cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON
   ```
-* If adding new `.cpp`/`.hpp` files, either:
+* To manually control source files instead of using `file(GLOB ...)`, uncomment the `set(SOURCE_FILES ...)` section in `CMakeLists.txt`.
 
-  * Rely on the `file(GLOB ...)` in `CMakeLists.txt`, or
-  * Manually add them to the `SOURCE_FILES` list (recommended for long-term maintenance).
+---
+
